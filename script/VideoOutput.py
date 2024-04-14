@@ -4,9 +4,11 @@ import numpy as np
 import csv
 import time
 from tkinter import ttk
+import math
+import datetime
 
 
-def extract_face_landmarks_to_csv(video_path, csv_path, model_path, progress_bar):
+def extract_face_landmarks_to_csv(video_path, csv_path, model_path, progress_bar,progress_text, progress_image_update_function):
     # FaceLandmarkerのオプションを設定
     options = mp.tasks.vision.FaceLandmarkerOptions(
         base_options=mp.tasks.BaseOptions(model_asset_path=model_path),
@@ -98,13 +100,27 @@ def extract_face_landmarks_to_csv(video_path, csv_path, model_path, progress_bar
 
             csv_writer.writerow(header)
 
+            startProcess = datetime.datetime.now()
+            updateTime = datetime.datetime.now()
+            process_fps = 0
+
             if not cap.isOpened():
                 raise ValueError("Unable to open video file: " + video_path)
             # ビデオからフレームを読み取る
             while cap.isOpened():
 
                 frame_num += 1
-                progress_bar["value"] = frame_num
+                time_diff = datetime.datetime.now() - updateTime
+                if time_diff.total_seconds() > 1:
+                    process_fps = math.ceil((frame_num - process_fps)*100 / time_diff.total_seconds())/100
+                    progress_text.set(str(math.ceil(frame_num*10000/total_frames)/100) + "% " + str(process_fps) + "fps 残り"+ str(math.floor((total_frames-frame_num)/process_fps/60))+ "分" +str(math.ceil((total_frames-frame_num)/process_fps)%60) +"秒")
+                    updateTime = datetime.datetime.now()
+                    process_fps = frame_num
+                    progress_image_update_function(frame)
+
+                if frame_num % 10 == 0:
+                    progress_bar["value"] = frame_num
+
                 ret, frame = cap.read()
                 if not ret:
                     break

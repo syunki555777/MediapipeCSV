@@ -10,17 +10,23 @@ import progress as pg
 from PIL import Image, ImageTk
 from numpy import zeros
 
-model_path = "face_landmarker.task"
+model_path = "script/face_landmarker.task"
 video_path_str = ""
 csv_path_str = ""
 
+thread = None
 
 
 def start_jobs():
+    global start_button
     start_button["state"] = "disabled"
 
-    thread = jt.JobThread(progress, start_button, model_path, csv_path_str,video_path_str)
+    global progress_text
+    global canvas
+
+    thread = jt.JobThread(progress, start_button, model_path, csv_path_str,video_path_str,progress_text,display_image_on_canvas)
     thread.start()
+
 
 
 def select_video():
@@ -38,14 +44,15 @@ def select_video():
         ret, frame = cap.read()
 
         if ret:
-            display_image_on_canvas(frame,canvas)
+            display_image_on_canvas(frame)
 
 
-def display_image_on_canvas(cv_img, canvas):
+def display_image_on_canvas(cv_img):
     global tk_img  # 必ずこの画像はグローバルで保存しておく
     global image_id  # 画像アイテムのIDを保存するための変数
     global height
     global width
+    global canvas
 
     # BGRからRGBに変換（OpenCVはBGR、TkinterはRGB）
     cv_img = resize_with_border(cv_img, width, height)
@@ -114,9 +121,6 @@ def show_info():
 root = tk.Tk()
 root.title("Mediapipe CSV converter")
 
-add_button = ttk.Button(root, text="追加", command=start_jobs)
-add_button.grid(row=0, column=5, padx=10, pady=10)
-
 # Button to select video file
 select_video_button = ttk.Button(root, text="動画を選択", command=select_video)
 select_video_button.grid(row=0, column=0, padx=10, pady=10)
@@ -177,6 +181,6 @@ opencv_button = ttk.Button(root, text="詳細", command=show_info)
 opencv_button.grid(row=4, column=0, padx=10, pady=10)
 
 start_button = ttk.Button(root, text="開始", command=start_jobs)
-start_button.grid(row=0, column=5, padx=10, pady=10)
+start_button.grid(row=4, column=5, padx=10, pady=10)
 
 root.mainloop()
