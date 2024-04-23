@@ -5,18 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4a87801c-e5d8-44ea-8e71-850f50e8a5a5" name="変更" comment="Add new scripts and configurations for video face landmark extraction&#10;&#10;The commit introduces a new function for extracting face landmarks from videos and writing results to local CSV files. In the same vein, it adds new python scripts including a JobQueue class for queuing tasks, a JobThread class for worker threads, and a main script for handling user interface events. The project IDE configurations are also added under .idea directory, ensuring consistent project settings across different workstations.&#10;ビデオからの顔のランドマークを抽出し、結果をローカルのCSVファイルに書き込むための新しい機能を追加するコミットです。それと同様に、タスクをキューイングするためのJobQueueクラス、ワーカースレッド用のJobThreadクラス、及びユーザーインターフェースのイベントを処理するためのメインスクリプトを含む新しいPythonスクリプトが追加されました。また、.ideaディレクトリ内にプロジェクトのIDE設定も追加され、異なるワークステーション間で一貫したプロジェクト設定が保証されます。">
-      <change afterPath="$PROJECT_DIR$/.idea/MediapipeCSV.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JobQueue.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JobThread.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/VideoOutput.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/imageOutput.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/progress.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/image/icon.icon" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/handOutput.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/poseOutput.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/MediapipeCSV.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MediapipeCSV.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/JobThread.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/JobThread.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/PyInstallerSetting.spec" beforeDir="false" afterPath="$PROJECT_DIR$/script/PyInstallerSetting.spec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/VideoOutput.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/faceOutput.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,18 +30,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "syunki555777"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;syunki555777&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/syunki555777/MediapipeCSV.git",
-    "accountId": "441a02cb-55a9-43e1-a21f-d688277f7e15"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/syunki555777/MediapipeCSV.git&quot;,
+    &quot;accountId&quot;: &quot;441a02cb-55a9-43e1-a21f-d688277f7e15&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -60,12 +57,13 @@
     "Python.JobQueue.executor": "Run",
     "Python.JobThread.executor": "Run",
     "Python.VideoOutput.executor": "Debug",
-    "Python.main.executor": "Run",
+    "Python.main.executor": "Debug",
     "Python.mediapipe.executor": "Run",
     "Python.rootWindow.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/syunk/PycharmProjects/MediapipeCSV",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/syunk/PycharmProjects/MediapipeCSV/script",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -77,7 +75,12 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\syunk\PycharmProjects\MediapipeCSV\script" />
       <recent name="C:\Users\syunk\PycharmProjects\MediapipeCSV" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\syunk\PycharmProjects\MediapipeCSV\image" />
+      <recent name="C:\Users\syunk\PycharmProjects\MediapipeCSV\script" />
     </key>
   </component>
   <component name="RunManager">
@@ -95,7 +98,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -129,19 +132,45 @@
       <workItem from="1712930711759" duration="29000" />
       <workItem from="1712930746207" duration="8487000" />
       <workItem from="1712982137884" duration="1699000" />
-      <workItem from="1712983853646" duration="20711000" />
+      <workItem from="1712983853646" duration="21104000" />
+      <workItem from="1713107640705" duration="3380000" />
+      <workItem from="1713879595650" duration="3942000" />
     </task>
+    <task id="LOCAL-00001" summary="Add new scripts and configurations for video face landmark extraction&#10;&#10;The commit introduces a new function for extracting face landmarks from videos and writing results to local CSV files. In the same vein, it adds new python scripts including a JobQueue class for queuing tasks, a JobThread class for worker threads, and a main script for handling user interface events. The project IDE configurations are also added under .idea directory, ensuring consistent project settings across different workstations.&#10;ビデオからの顔のランドマークを抽出し、結果をローカルのCSVファイルに書き込むための新しい機能を追加するコミットです。それと同様に、タスクをキューイングするためのJobQueueクラス、ワーカースレッド用のJobThreadクラス、及びユーザーインターフェースのイベントを処理するためのメインスクリプトを含む新しいPythonスクリプトが追加されました。また、.ideaディレクトリ内にプロジェクトのIDE設定も追加され、異なるワークステーション間で一貫したプロジェクト設定が保証されます。">
+      <option name="closed" value="true" />
+      <created>1713033590739</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1713033590739</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.spec" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -154,7 +183,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MediapipeCSV$JobThread.coverage" NAME="JobThread のカバレッジ結果" MODIFIED="1712938636028" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MediapipeCSV$JobQueue.coverage" NAME="JobQueue のカバレッジ結果" MODIFIED="1712993402233" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MediapipeCSV$main.coverage" NAME="main のカバレッジ結果" MODIFIED="1713027764047" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MediapipeCSV$main.coverage" NAME="main のカバレッジ結果" MODIFIED="1713883265068" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MediapipeCSV$mediapipe.coverage" NAME="mediapipe のカバレッジ結果" MODIFIED="1712935319126" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MediapipeCSV$.coverage" NAME=" のカバレッジ結果" MODIFIED="1712931343123" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/MediapipeCSV$rootWindow.coverage" NAME="rootWindow のカバレッジ結果" MODIFIED="1712994267274" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

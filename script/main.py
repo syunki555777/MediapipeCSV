@@ -9,11 +9,15 @@ import JobThread as jt
 import progress as pg
 from PIL import Image, ImageTk
 from numpy import zeros
+base_dir = os.path.dirname(os.path.abspath(__file__))
 
-model_path = "script/face_landmarker.task"
-video_path_str = ""
+# Use this as the base for any files that you need to access
+face_model_path = os.path.join(base_dir, "face_landmarker.task")
+pose_model_path = os.path.join(base_dir, "pose_landmarker_heavy.task")
+hand_model_path = os.path.join(base_dir, "hand_landmarker.task")
+file_path_str = ""
 csv_path_str = ""
-
+mode = "Pose"
 thread = None
 
 
@@ -24,7 +28,14 @@ def start_jobs():
     global progress_text
     global canvas
 
-    thread = jt.JobThread(progress, start_button, model_path, csv_path_str,video_path_str,progress_text,display_image_on_canvas)
+    model_path = ""
+    if mode == "Pose":
+        model_path = pose_model_path
+    elif mode == "Face":
+        model_path = face_model_path
+    elif mode == "Hand":
+        model_path = hand_model_path
+    thread = jt.JobThread(progress, start_button, model_path, csv_path_str,file_path_str,progress_text,display_image_on_canvas,mode)
     thread.start()
 
 
@@ -32,11 +43,11 @@ def start_jobs():
 def select_video():
     filename = filedialog.askopenfilename(filetypes=[('Video Files', '*.mp4 *.avi *.mov')])
     if filename:
-        global video_path_str
+        global file_path_str
         global canvas
         global height
         global width
-        video_path_str = filename
+        file_path_str = filename
         video_path.set(filename)
 
         cap = cv2.VideoCapture(filename)
@@ -176,11 +187,33 @@ progress_text_label.grid(row=0, column=1, padx=10, pady=10)
 canvas.grid(row=0, column=0, rowspan = 2,padx=5, pady=5)
 progress.grid(row=1, column=1, columnspan=1,rowspan=5, padx=10, pady=10)
 
+# Create a list of models
+models = ['Pose', 'Face', 'Hand']
+
+# Create a StringVar for currently selected model
+current_model = tk.StringVar()
+
+# Create a combobox for model selection
+model_menu = ttk.Combobox(root, textvariable=current_model, values=models,state="readonly")
+model_menu.grid(row=0, column=4, padx=10, pady=10)
+
+
+def update_model(*args):
+    global face_model_path
+    global mode
+    mode = current_model.get()
+
+
+# bind the function to the combobox
+current_model.trace('w', update_model)
+
+model_menu.current(0)  # Set the first model as the default
+
 
 opencv_button = ttk.Button(root, text="詳細", command=show_info)
 opencv_button.grid(row=4, column=0, padx=10, pady=10)
 
 start_button = ttk.Button(root, text="開始", command=start_jobs)
-start_button.grid(row=4, column=5, padx=10, pady=10)
-
+start_button.grid(row=4, column=4, padx=10, pady=10)
+root.resizable(0,0)
 root.mainloop()
