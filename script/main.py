@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import time
-from tkinter import filedialog
+from tkinter import filedialog, font
 import os
 import cv2
 from tkinter import messagebox
@@ -9,16 +9,19 @@ import JobThread as jt
 import progress as pg
 from PIL import Image, ImageTk
 from numpy import zeros
+
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Use this as the base for any files that you need to access
 face_model_path = os.path.join(base_dir, "face_landmarker.task")
-pose_model_path = os.path.join(base_dir, "pose_landmarker_heavy.task")
+pose_lite_model_path = os.path.join(base_dir, "pose_landmarker_lite.task")
+pose_heavy_model_path = os.path.join(base_dir, "pose_landmarker_heavy.task")
 hand_model_path = os.path.join(base_dir, "hand_landmarker.task")
-file_path_str = ""
-csv_path_str = ""
-mode = "Pose"
+file_path_strs = []
+csv_path_strs = []
+mode = "Face"
 thread = None
+running = False
 
 
 def start_jobs():
@@ -27,35 +30,65 @@ def start_jobs():
 
     global progress_text
     global canvas
+    global thread
 
-    model_path = ""
-    if mode == "Pose":
-        model_path = pose_model_path
-    elif mode == "Face":
-        model_path = face_model_path
-    elif mode == "Hand":
-        model_path = hand_model_path
-    thread = jt.JobThread(progress, start_button, model_path, csv_path_str,file_path_str,progress_text,display_image_on_canvas,mode)
-    thread.start()
+    if not thread:
+        model_path = ""
+        if mode == "Pose -heavy":
+            model_path = pose_heavy_model_path
+        elif mode == "Pose -lite":
+            model_path = pose_lite_model_path
+        elif mode == "Face" or mode == "Face without landmarks":
+            model_path = face_model_path
+        elif mode == "Hand":
+            model_path = hand_model_path
+        thread = jt.JobThread(progress, start_button, model_path, csv_path_strs,file_path_strs,progress_text,display_image_on_canvas,mode,updateChangeVideoBox)
+        thread.start()
 
 
+root = tk.Tk()
+root.title("Mediapipe CSV converter")
+
+#ビデオバス
+video_paths_listbox = tk.Listbox(root, selectmode=tk.SINGLE,width=100)
+video_paths_listbox.grid(row=4, column=0,columnspan=5, padx=10, pady=10)
+
+#CSVパス
+#csv_paths_listbox = tk.Listbox(root, selectmode=tk.SINGLE,width=50)
+#csv_paths_listbox.grid(row=4, column=3,columnspan=2, padx=10, pady=10)
+
+def updateChangeVideoBox(index, newString):
+    video_paths_listbox.delete(index)
+    video_paths_listbox.insert(index, newString.expandtabs(10))
 
 def select_video():
-    filename = filedialog.askopenfilename(filetypes=[('Video Files', '*.mp4 *.avi *.mov')])
-    if filename:
-        global file_path_str
+    # Listboxをクリア
+    video_paths_listbox.delete(0, tk.END)
+
+
+    filenames = filedialog.askopenfilenames(title="動画を選択",filetypes=[('Video Files', '*.mp4 *.avi *.mov'),("すべてのファイル", "*.*")])
+    if filenames:
+        global file_path_strs
+        global csv_path_strs
         global canvas
         global height
         global width
-        file_path_str = filename
-        video_path.set(filename)
+        file_path_strs = filenames
+        video_path.set(filenames[0])
+        csv_path_strs = []
+        for name in filenames:
+            csv_path_strs.append(name.replace(".mp4","_mediapipe.csv",-1).replace(".avi","_mediapipe.csv",-1).replace(".mov","_mediapipe.csv",-1))
+        csv_path.set(csv_path_strs[0])
 
-        cap = cv2.VideoCapture(filename)
+
+        cap = cv2.VideoCapture(filenames[0])
 
         ret, frame = cap.read()
 
-        if ret:
-            display_image_on_canvas(frame)
+        for index in range(len(filenames)):
+            video_paths_listbox.insert(tk.END,  str(str(index)+":\t"+filenames[index]).expandtabs(10))
+            #csv_paths_listbox.insert(tk.END, csv_path_strs[index])
+
 
 
 def display_image_on_canvas(cv_img):
@@ -106,13 +139,6 @@ def resize_with_border(img, width, height):
 
     return img_with_border
 
-def save_csv():
-    filename = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[('csv', '*.csv')])
-    if filename:
-        global csv_path_str
-        csv_path_str = filename
-        csv_path.set(filename)
-
 def show_info():
     root = tk.Tk()
     text = tk.Text(root)
@@ -129,8 +155,6 @@ def show_info():
     root.mainloop()
 
 
-root = tk.Tk()
-root.title("Mediapipe CSV converter")
 
 # Button to select video file
 select_video_button = ttk.Button(root, text="動画を選択", command=select_video)
@@ -143,8 +167,8 @@ video_path_label = ttk.Label(root, textvariable=video_path)
 video_path_label.grid(row=0, column=1, padx=10, pady=10)
 
 # Save to csv
-select_csv_button = ttk.Button(root, text="save to the csv file", command=save_csv)
-select_csv_button.grid(row=0, column=2, padx=10, pady=10)
+#select_csv_button = ttk.Button(root, text="save to the csv file", command=save_csv)
+#select_csv_button.grid(row=0, column=2, padx=10, pady=10)
 
 csv_path = tk.StringVar()
 csv_path.set("csvは選択されていません。")
@@ -182,13 +206,17 @@ image_id = canvas.create_image(0, 0, image=tk_img, anchor=tk.NW)
 # 文字描画
 progress_text = tk.StringVar()
 progress_text.set("動画を選択して開始を押してください。")
-progress_text_label = ttk.Label(frame, textvariable=progress_text)
+large_font = tk.font.Font(family="Helvetica", size=20, weight="bold")
+progress_text_label = ttk.Label(frame, textvariable=progress_text,font=large_font)
+
 progress_text_label.grid(row=0, column=1, padx=10, pady=10)
 canvas.grid(row=0, column=0, rowspan = 2,padx=5, pady=5)
 progress.grid(row=1, column=1, columnspan=1,rowspan=5, padx=10, pady=10)
 
+
+
 # Create a list of models
-models = ['Pose', 'Face', 'Hand']
+models = ['Face', 'Face without landmarks' ,'Pose -heavy', 'Pose -lite', 'Hand']
 
 # Create a StringVar for currently selected model
 current_model = tk.StringVar()
@@ -211,9 +239,9 @@ model_menu.current(0)  # Set the first model as the default
 
 
 opencv_button = ttk.Button(root, text="詳細", command=show_info)
-opencv_button.grid(row=4, column=0, padx=10, pady=10)
+opencv_button.grid(row=5, column=0, padx=10, pady=10)
 
 start_button = ttk.Button(root, text="開始", command=start_jobs)
-start_button.grid(row=4, column=4, padx=10, pady=10)
+start_button.grid(row=5, column=4, padx=10, pady=10)
 root.resizable(0,0)
 root.mainloop()

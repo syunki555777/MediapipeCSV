@@ -7,6 +7,8 @@ from tkinter import ttk
 import math
 import datetime
 
+from fontTools.ttx import process
+
 
 def extract_hand_landmarks_to_csv(video_path, csv_path, model_path, progress_bar,progress_text, progress_image_update_function):
     # FaceLandmarkerのオプションを設定
@@ -51,6 +53,7 @@ def extract_hand_landmarks_to_csv(video_path, csv_path, model_path, progress_bar
             startProcess = datetime.datetime.now()
             updateTime = datetime.datetime.now()
             process_fps = 0
+            mean_fps = 0
 
             if not cap.isOpened():
                 raise ValueError("Unable to open video file: " + video_path)
@@ -59,12 +62,17 @@ def extract_hand_landmarks_to_csv(video_path, csv_path, model_path, progress_bar
 
                 frame_num += 1
                 time_diff = datetime.datetime.now() - updateTime
+
                 if time_diff.total_seconds() > 1:
                     process_fps = math.ceil((frame_num - process_fps)*100 / time_diff.total_seconds())/100
-                    progress_text.set(str(math.ceil(frame_num*10000/total_frames)/100) + "% " + str(process_fps) + "fps 残り"+ str(math.floor((total_frames-frame_num)/process_fps/60))+ "分" +str(math.ceil((total_frames-frame_num)/process_fps)%60) +"秒")
+                    if not mean_fps == 0:
+                        mean_fps = process_fps
+                    mean_fps = mean_fps * 0.9 + process_fps * 0.1
+                    progress_text.set(str(str(math.ceil(frame_num*10000/total_frames)/100) + "%\t" + str(process_fps) + "fps\t残り"+ str(math.floor((total_frames-frame_num)/mean_fps/60))+ "分" +f"{math.ceil((total_frames-frame_num)/mean_fps)%60:02}" +"秒").expandtabs(9))
                     updateTime = datetime.datetime.now()
                     process_fps = frame_num
                     progress_image_update_function(frame)
+                    print(cap.get(cv2.CAP_PROP_POS_MSEC))
 
                 if frame_num % 10 == 0:
                     progress_bar["value"] = frame_num
@@ -78,7 +86,7 @@ def extract_hand_landmarks_to_csv(video_path, csv_path, model_path, progress_bar
                 mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame_rgb)
 
                 # 現在のフレームのタイムスタンプを計算
-                frame_timestamp_ms = int((time.time() - start_time) * 1000)
+                frame_timestamp_ms = int(cap.get(cv2.CAP_PROP_POS_MSEC))
 
                 # 顔のランドマーキングを実行
                 face_landmarker_result = landmarker.detect_for_video(mp_image, frame_timestamp_ms)
@@ -92,10 +100,10 @@ def extract_hand_landmarks_to_csv(video_path, csv_path, model_path, progress_bar
                         landmarks.append(pose_landmark.z)
                     if face_landmarker_result.handedness:
                         landmarks.append(face_landmarker_result.handedness[0][0].category_name)
-                    csv_writer.writerow([frame_timestamp_ms / 1000] + landmarks)
+                    csv_writer.writerow([cap.get(cv2.CAP_PROP_POS_MSEC) / 1000] + landmarks)
 
                 else:
-                    csv_writer.writerow([frame_timestamp_ms / 1000])
+                    csv_writer.writerow([cap.get(cv2.CAP_PROP_POS_MSEC) / 1000])
 
 
     except Exception as e:

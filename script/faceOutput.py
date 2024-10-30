@@ -8,7 +8,7 @@ import math
 import datetime
 
 
-def extract_face_landmarks_to_csv(video_path, csv_path, model_path, progress_bar,progress_text, progress_image_update_function):
+def extract_face_landmarks_to_csv(video_path, csv_path, model_path, progress_bar,progress_text, progress_image_update_function,blendShapes_Only = False):
     # FaceLandmarkerのオプションを設定
     options = mp.tasks.vision.FaceLandmarkerOptions(
         base_options=mp.tasks.BaseOptions(model_asset_path=model_path),
@@ -40,10 +40,12 @@ def extract_face_landmarks_to_csv(video_path, csv_path, model_path, progress_bar
             start_time = time.time()
             #ヘッダー出力
             header = ["time"]
-            for i in range(0, 478):
-                header.append(str(i)+"x")
-                header.append(str(i)+"y")
-                header.append(str(i)+"z")
+            if not blendShapes_Only:
+                for i in range(0, 478):
+                    header.append(str(i)+"x")
+                    header.append(str(i)+"y")
+                    header.append(str(i)+"z")
+
             for i in ["_neutral"
                 ,"browDownLeft"
                 ,"browDownRight"
@@ -104,6 +106,8 @@ def extract_face_landmarks_to_csv(video_path, csv_path, model_path, progress_bar
             updateTime = datetime.datetime.now()
             process_fps = 0
 
+            mean_fps = 0
+
             if not cap.isOpened():
                 raise ValueError("Unable to open video file: " + video_path)
             # ビデオからフレームを読み取る
@@ -112,11 +116,18 @@ def extract_face_landmarks_to_csv(video_path, csv_path, model_path, progress_bar
                 frame_num += 1
                 time_diff = datetime.datetime.now() - updateTime
                 if time_diff.total_seconds() > 1:
+
                     process_fps = math.ceil((frame_num - process_fps)*100 / time_diff.total_seconds())/100
-                    progress_text.set(str(math.ceil(frame_num*10000/total_frames)/100) + "% " + str(process_fps) + "fps 残り"+ str(math.floor((total_frames-frame_num)/process_fps/60))+ "分" +str(math.ceil((total_frames-frame_num)/process_fps)%60) +"秒")
+                    if mean_fps == 0:
+                        mean_fps = process_fps
+                    mean_fps = mean_fps * 0.9 + process_fps * 0.1
+                    progress_text.set(str(str(math.ceil(frame_num * 10000 / total_frames) / 100) + "%\t" + str(
+                        process_fps) + "fps\t残り" + str(math.floor((total_frames - frame_num) / mean_fps / 60)) + "分" + f"{math.ceil((total_frames - frame_num) / mean_fps) % 60:02}" + "秒").expandtabs(9))
+
                     updateTime = datetime.datetime.now()
                     process_fps = frame_num
                     progress_image_update_function(frame)
+                    print(cap.get(cv2.CAP_PROP_POS_MSEC))
 
                 if frame_num % 10 == 0:
                     progress_bar["value"] = frame_num
@@ -130,7 +141,7 @@ def extract_face_landmarks_to_csv(video_path, csv_path, model_path, progress_bar
                 mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame_rgb)
 
                 # 現在のフレームのタイムスタンプを計算
-                frame_timestamp_ms = int((time.time() - start_time) * 1000)
+                frame_timestamp_ms = int(cap.get(cv2.CAP_PROP_POS_MSEC))
 
                 # 顔のランドマーキングを実行
                 face_landmarker_result = landmarker.detect_for_video(mp_image, frame_timestamp_ms)
@@ -138,19 +149,20 @@ def extract_face_landmarks_to_csv(video_path, csv_path, model_path, progress_bar
                 if face_landmarker_result.face_landmarks:
                     # ランドマークデータの取得と整形
                     landmarks = []
-                    for face_landmark in face_landmarker_result.face_landmarks[0]:
-                        landmarks.append(face_landmark.x)
-                        landmarks.append(face_landmark.y)
-                        landmarks.append(face_landmark.z)
+                    if not blendShapes_Only:
+                        for face_landmark in face_landmarker_result.face_landmarks[0]:
+                            landmarks.append(face_landmark.x)
+                            landmarks.append(face_landmark.y)
+                            landmarks.append(face_landmark.z)
 
                     for face_blendshapes in face_landmarker_result.face_blendshapes[0]:
                         landmarks.append(face_blendshapes.score)
 
 
-                    csv_writer.writerow([frame_timestamp_ms / 1000] + landmarks)
+                    csv_writer.writerow([cap.get(cv2.CAP_PROP_POS_MSEC) / 1000] + landmarks)
 
                 else:
-                    csv_writer.writerow([frame_timestamp_ms / 1000])
+                    csv_writer.writerow([cap.get(cv2.CAP_PROP_POS_MSEC) / 1000])
 
 
     except Exception as e:
