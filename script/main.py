@@ -10,6 +10,8 @@ import progress as pg
 from PIL import Image, ImageTk
 from numpy import zeros
 
+import re
+
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Use this as the base for any files that you need to access
@@ -77,7 +79,7 @@ def select_video():
         video_path.set(filenames[0])
         csv_path_strs = []
         for name in filenames:
-            csv_path_strs.append(name.replace(".mp4","_mediapipe.csv",-1).replace(".avi","_mediapipe.csv",-1).replace(".mov","_mediapipe.csv",-1))
+            csv_path_strs.append(re.sub(r'\.[^.]+$', '_mediapipe.csv', name))
         csv_path.set(csv_path_strs[0])
 
 

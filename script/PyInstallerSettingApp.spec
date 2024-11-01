@@ -3,13 +3,13 @@
 block_cipher = None
 
 a = Analysis(['main.py'],
-             pathex=['C:\\Users\\syunk\\PycharmProjects\\MediapipeCSV\\script\\main.py'],
+             pathex=['.\main.py'],
              binaries=[],
-             datas=[('/Users/shungiku/Library/Mobile Documents/com~apple~CloudDocs/研究/Mediapipe image/MediapipeCSV/script/hand_landmarker.task', '.'),
-                    ('/Users/shungiku/Library/Mobile Documents/com~apple~CloudDocs/研究/Mediapipe image/MediapipeCSV/script/pose_landmarker_heavy.task', '.'),
-                    ('/Users/shungiku/Library/Mobile Documents/com~apple~CloudDocs/研究/Mediapipe image/MediapipeCSV/script/pose_landmarker_lite.task', '.'),
-                    ('/Users/shungiku/Library/Mobile Documents/com~apple~CloudDocs/研究/Mediapipe image/MediapipeCSV/script/face_landmarker.task', '.'),
-                    ("/Users/shungiku/Library/Mobile Documents/com~apple~CloudDocs/研究/Mediapipe image/MediapipeCSV/image/icon.png", "image")],
+             datas=[('./hand_landmarker.task', '.'),
+                    ('./pose_landmarker_heavy.task', '.'),
+                    ('./pose_landmarker_lite.task', '.'),
+                    ('./face_landmarker.task', '.'),
+                    ("../image/icon.png", "image")],
              # favicon.icoを含める場合
              win_no_prefer_redirects=False,
              win_private_assemblies=False,
@@ -31,5 +31,5 @@ exe = EXE(pyz,
           upx_exclude=[],
           runtime_tmpdir=None,
           console=False,  # ウィンドウモード
-          icon='/Users/shungiku/Library/Mobile Documents/com~apple~CloudDocs/研究/Mediapipe image/MediapipeCSV/image/icon.png'  # アイコンのパス
+          icon='../image/icon.png'  # アイコンのパス
           )

@@ -4,23 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4a87801c-e5d8-44ea-8e71-850f50e8a5a5" name="変更" comment="Add new scripts and configurations for video face landmark extraction&#10;&#10;The commit introduces a new function for extracting face landmarks from videos and writing results to local CSV files. In the same vein, it adds new python scripts including a JobQueue class for queuing tasks, a JobThread class for worker threads, and a main script for handling user interface events. The project IDE configurations are also added under .idea directory, ensuring consistent project settings across different workstations.&#10;ビデオからの顔のランドマークを抽出し、結果をローカルのCSVファイルに書き込むための新しい機能を追加するコミットです。それと同様に、タスクをキューイングするためのJobQueueクラス、ワーカースレッド用のJobThreadクラス、及びユーザーインターフェースのイベントを処理するためのメインスクリプトを含む新しいPythonスクリプトが追加されました。また、.ideaディレクトリ内にプロジェクトのIDE設定も追加され、異なるワークステーション間で一貫したプロジェクト設定が保証されます。">
-      <change afterPath="$PROJECT_DIR$/image/icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/PyInstallerSettingApp.spec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/PyInstallerSettingExe.spec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/mac.spec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/pose_landmarker_lite.task" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/MediapipeCSV.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MediapipeCSV.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="4a87801c-e5d8-44ea-8e71-850f50e8a5a5" name="変更" comment="新しいアイコン、フォント、ポーズモデル設定でアプリケーションを更新。&#10;&#10;アイコンファイルを置き換え、PyInstaller設定を更新しました。複数ファイル処理のためにメインスクリプトに新しいポーズモデル設定を追加し、リファクタリングを行いました。インターフェースを改善し、フォント変更とビデオ選択機能を追加しました。">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image/icon.icon" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/JobQueue.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/JobQueue.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/JobThread.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/JobThread.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/PyInstallerSetting.spec" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/faceOutput.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/faceOutput.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/handOutput.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/handOutput.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/PyInstallerSettingApp.spec" beforeDir="false" afterPath="$PROJECT_DIR$/script/PyInstallerSettingApp.spec" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/poseOutput.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/poseOutput.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +63,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -165,6 +152,10 @@
       <workItem from="1730265820639" duration="506000" />
       <workItem from="1730266332866" duration="195000" />
       <workItem from="1730266677653" duration="202000" />
+      <workItem from="1730266889932" duration="2368000" />
+      <workItem from="1730346940713" duration="633000" />
+      <workItem from="1730372653885" duration="2224000" />
+      <workItem from="1730448376259" duration="541000" />
     </task>
     <task id="LOCAL-00001" summary="Add new scripts and configurations for video face landmark extraction&#10;&#10;The commit introduces a new function for extracting face landmarks from videos and writing results to local CSV files. In the same vein, it adds new python scripts including a JobQueue class for queuing tasks, a JobThread class for worker threads, and a main script for handling user interface events. The project IDE configurations are also added under .idea directory, ensuring consistent project settings across different workstations.&#10;ビデオからの顔のランドマークを抽出し、結果をローカルのCSVファイルに書き込むための新しい機能を追加するコミットです。それと同様に、タスクをキューイングするためのJobQueueクラス、ワーカースレッド用のJobThreadクラス、及びユーザーインターフェースのイベントを処理するためのメインスクリプトを含む新しいPythonスクリプトが追加されました。また、.ideaディレクトリ内にプロジェクトのIDE設定も追加され、異なるワークステーション間で一貫したプロジェクト設定が保証されます。">
       <option name="closed" value="true" />
@@ -174,7 +165,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713033590739</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="新しいアイコン、フォント、ポーズモデル設定でアプリケーションを更新。&#10;&#10;アイコンファイルを置き換え、PyInstaller設定を更新しました。複数ファイル処理のためにメインスクリプトに新しいポーズモデル設定を追加し、リファクタリングを行いました。インターフェースを改善し、フォント変更とビデオ選択機能を追加しました。">
+      <option name="closed" value="true" />
+      <created>1730266950053</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1730266950053</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -208,14 +207,15 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add new scripts and configurations for video face landmark extraction&#10;&#10;The commit introduces a new function for extracting face landmarks from videos and writing results to local CSV files. In the same vein, it adds new python scripts including a JobQueue class for queuing tasks, a JobThread class for worker threads, and a main script for handling user interface events. The project IDE configurations are also added under .idea directory, ensuring consistent project settings across different workstations.&#10;ビデオからの顔のランドマークを抽出し、結果をローカルのCSVファイルに書き込むための新しい機能を追加するコミットです。それと同様に、タスクをキューイングするためのJobQueueクラス、ワーカースレッド用のJobThreadクラス、及びユーザーインターフェースのイベントを処理するためのメインスクリプトを含む新しいPythonスクリプトが追加されました。また、.ideaディレクトリ内にプロジェクトのIDE設定も追加され、異なるワークステーション間で一貫したプロジェクト設定が保証されます。" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add new scripts and configurations for video face landmark extraction&#10;&#10;The commit introduces a new function for extracting face landmarks from videos and writing results to local CSV files. In the same vein, it adds new python scripts including a JobQueue class for queuing tasks, a JobThread class for worker threads, and a main script for handling user interface events. The project IDE configurations are also added under .idea directory, ensuring consistent project settings across different workstations.&#10;ビデオからの顔のランドマークを抽出し、結果をローカルのCSVファイルに書き込むための新しい機能を追加するコミットです。それと同様に、タスクをキューイングするためのJobQueueクラス、ワーカースレッド用のJobThreadクラス、及びユーザーインターフェースのイベントを処理するためのメインスクリプトを含む新しいPythonスクリプトが追加されました。また、.ideaディレクトリ内にプロジェクトのIDE設定も追加され、異なるワークステーション間で一貫したプロジェクト設定が保証されます。" />
+    <MESSAGE value="新しいアイコン、フォント、ポーズモデル設定でアプリケーションを更新。&#10;&#10;アイコンファイルを置き換え、PyInstaller設定を更新しました。複数ファイル処理のためにメインスクリプトに新しいポーズモデル設定を追加し、リファクタリングを行いました。インターフェースを改善し、フォント変更とビデオ選択機能を追加しました。" />
+    <option name="LAST_COMMIT_MESSAGE" value="新しいアイコン、フォント、ポーズモデル設定でアプリケーションを更新。&#10;&#10;アイコンファイルを置き換え、PyInstaller設定を更新しました。複数ファイル処理のためにメインスクリプトに新しいポーズモデル設定を追加し、リファクタリングを行いました。インターフェースを改善し、フォント変更とビデオ選択機能を追加しました。" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MediapipeCSV$mediapipe.coverage" NAME="mediapipe のカバレッジ結果" MODIFIED="1712935319126" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MediapipeCSV$JobThread.coverage" NAME="JobThread のカバレッジ結果" MODIFIED="1712938636028" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MediapipeCSV$VideoOutput.coverage" NAME="VideoOutput のカバレッジ結果" MODIFIED="1712995522075" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MediapipeCSV$JobQueue.coverage" NAME="JobQueue のカバレッジ結果" MODIFIED="1712993402233" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MediapipeCSV$main.coverage" NAME="main のカバレッジ結果" MODIFIED="1729612289064" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MediapipeCSV$main.coverage" NAME="main のカバレッジ結果" MODIFIED="1730448453513" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MediapipeCSV$.coverage" NAME=" のカバレッジ結果" MODIFIED="1712931343123" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/MediapipeCSV$rootWindow.coverage" NAME="rootWindow のカバレッジ結果" MODIFIED="1712994267274" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
