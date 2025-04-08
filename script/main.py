@@ -72,6 +72,7 @@ def select_video():
 
 
     filenames = filedialog.askopenfilenames(title="動画を選択",filetypes=[('Video Files', '*.mp4 *.avi *.mov'),("すべてのファイル", "*.*")])
+
     if filenames:
         global file_path_strs
         global csv_path_strs
@@ -93,6 +94,45 @@ def select_video():
         for index in range(len(filenames)):
             video_paths_listbox.insert(tk.END,  str(str(index)+":\t"+filenames[index]).expandtabs(10))
             #csv_paths_listbox.insert(tk.END, csv_path_strs[index])
+
+
+def select_folder():
+    # フォルダ選択ダイアログを表示
+    folder_path = filedialog.askdirectory(title="フォルダを選択")
+
+    if folder_path:
+        # リストボックスをクリア
+        video_paths_listbox.delete(0, tk.END)
+
+        # 動画ファイルの拡張子を定義
+        video_file_extensions = ('.mp4', '.avi', '.mov', '.mkv', '.flv', '.wmv')
+
+        # フォルダ内のファイルを再帰的に探索
+        global file_path_strs
+        global csv_path_strs
+
+        file_path_strs = []
+        csv_path_strs = []
+
+        for root_dir, _, files in os.walk(folder_path):  # os.walkですべてのサブディレクトリを探索
+            for filename in files:
+                # 動画ファイルかチェック
+                if filename.lower().endswith(video_file_extensions):
+                    full_path = os.path.join(root_dir, filename)
+                    file_path_strs.append(full_path)
+                    csv_path_strs.append(re.sub(r'\.[^.]+$', '_mediapipe.csv', full_path))
+
+        # リストボックスに追加
+        for index, path in enumerate(file_path_strs):
+            video_paths_listbox.insert(tk.END, f"{index}: {path}")
+
+        if file_path_strs:
+            # 最初の動画ファイルをセット
+            video_path.set(file_path_strs[0])
+            csv_path.set(csv_path_strs[0])
+        else:
+            video_path.set("動画ファイルが見つかりませんでした。")
+            csv_path.set("")
 
 
 
@@ -164,6 +204,10 @@ def show_info():
 # Button to select video file
 select_video_button = ttk.Button(root, text="動画を選択", command=select_video)
 select_video_button.grid(row=0, column=0, padx=10, pady=10)
+
+# フォルダ選択ボタン
+select_folder_button = ttk.Button(root, text="フォルダを選択", command=select_folder)
+select_folder_button.grid(row=0, column=2, padx=10, pady=10)
 
 # Label to display selected video path
 video_path = tk.StringVar()
