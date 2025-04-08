@@ -19,6 +19,7 @@ face_model_path = os.path.join(base_dir, "face_landmarker.task")
 pose_lite_model_path = os.path.join(base_dir, "pose_landmarker_lite.task")
 pose_heavy_model_path = os.path.join(base_dir, "pose_landmarker_heavy.task")
 hand_model_path = os.path.join(base_dir, "hand_landmarker.task")
+hand_gesture_mode_path = os.path.join(base_dir, "gesture_recognizer.task")
 file_path_strs = []
 csv_path_strs = []
 mode = "Face"
@@ -44,6 +45,8 @@ def start_jobs():
             model_path = face_model_path
         elif mode == "Hand":
             model_path = hand_model_path
+        elif mode ==  "Hand gesture":
+            model_path = hand_gesture_mode_path
         thread = jt.JobThread(progress, start_button, model_path, csv_path_strs,file_path_strs,progress_text,display_image_on_canvas,mode,updateChangeVideoBox)
         thread.start()
 
@@ -218,7 +221,7 @@ progress.grid(row=1, column=1, columnspan=1,rowspan=5, padx=10, pady=10)
 
 
 # Create a list of models
-models = ['Face', 'Face without landmarks' ,'Pose -heavy', 'Pose -lite', 'Hand']
+models = ['Face', 'Face without landmarks' ,'Pose -heavy', 'Pose -lite', 'Hand', 'Hand gesture']
 
 # Create a StringVar for currently selected model
 current_model = tk.StringVar()

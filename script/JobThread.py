@@ -2,6 +2,7 @@ import threading
 import faceOutput
 import poseOutput
 import handOutput
+import gestureOutput
 from tkinter import messagebox
 import tkinter as tk
 from datetime import datetime
@@ -67,6 +68,12 @@ class JobThread(threading.Thread):
                                                              model_path=self.model_path, progress_bar=self.progress,
                                                              progress_text=self.progress_text,
                                                              progress_image_update_function=self.progress_image_update_function)
+                elif self.mode == "Hand gesture":
+                    gestureOutput.extract_gestures_to_csv(video_path=video_path, csv_path=csv_path,
+                                                             model_path=self.model_path, progress_bar=self.progress,
+                                                             progress_text=self.progress_text,
+                                                             progress_image_update_function=self.progress_image_update_function)
+
             except Exception as e:
                 print(e)
                 self.updateList(index, str(index) + ":\t" + self.video_paths[index] + "\t!エラー!")
